@@ -22,7 +22,7 @@ const Header = () => {
           };
     
           // Call your logout API endpoint with the authorization header
-          await axios.post('http://13.124.48.227/api/v1/user_app/logout/', null, config);
+          await axios.post('http://13.125.141.67/api/v1/user_app/logout/', null, config);
     
           // After successful logout, clear the access token from local storage
           localStorage.removeItem('accessToken');

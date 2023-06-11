@@ -7,7 +7,7 @@ import folder from "../static/folder.png";
 import xls from '../static/exel.png';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import { data } from 'autoprefixer';
 import { FileSharingSidebar } from './FileSharingSidebar';
 
@@ -39,7 +39,7 @@ const FileUploadGrid = () => {
         const config = {
           headers: { Authorization: `Bearer ${token}` },
         };
-          const response = await axios.get('http://13.124.48.227/api/v1/files/files/', config);
+          const response = await axios.get('http://13.125.141.67/api/v1/files/files/', config);
   
           // Update the files state with the fetched data
           setFiles(response.data);
@@ -100,7 +100,7 @@ const FileUploadGrid = () => {
                 'Content-Type': 'multipart/form-data',
             },
             };
-            await axios.post('http://13.124.48.227/api/v1/files/upload/', formData, config);
+            await axios.post('http://13.125.141.67/api/v1/files/upload/', formData, config);
 
             // Fetch the updated list of files after successful upload
             fetchFiles();
@@ -115,7 +115,7 @@ const FileUploadGrid = () => {
     const handleFileFavorite = async (file) => {
         try {
             const id = file
-            const url = `http://13.124.48.227/api/v1/files/files/${id}/favorite/`;
+            const url = `http://13.125.141.67/api/v1/files/files/${id}/favorite/`;
             const token = localStorage.getItem('accessToken');
             const config = {
             headers: {
@@ -136,7 +136,7 @@ const FileUploadGrid = () => {
        
         try {
             const id = file.id
-            const url = `http://13.124.48.227/api/v1/files/files/${id}/view/`;
+            const url = `http://13.125.141.67/api/v1/files/files/${id}/view/`;
             const token = localStorage.getItem('accessToken');
             const config = {
             headers: {
