@@ -21,7 +21,7 @@ const Content = () => {
         const config = {
           headers: { Authorization: `Bearer ${token}` },
         };
-        const response = await axios.get('http://13.124.48.227/api/v1/files/files/', config);
+        const response = await axios.get('http://13.125.141.67/api/v1/files/files/', config);
     
         // Update the files state with the fetched data
         setFiles(response.data);
@@ -59,7 +59,7 @@ const Content = () => {
     const handleFileFavorite = async (file) => {
       try {
           const id = file
-          const url = `http://13.124.48.227/api/v1/files/files/${id}/favorite/`;
+          const url = `http://13.125.141.67/api/v1/files/files/${id}/favorite/`;
           const token = localStorage.getItem('accessToken');
           const config = {
           headers: {
@@ -110,7 +110,7 @@ const Content = () => {
        
         try {
             const id = file.id
-            const url = `http://13.124.48.227/api/v1/files/files/${id}/view/`;
+            const url = `http://13.125.141.67/api/v1/files/files/${id}/view/`;
             const token = localStorage.getItem('accessToken');
             const config = {
             headers: {

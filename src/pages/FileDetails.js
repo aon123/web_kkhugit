@@ -27,7 +27,7 @@ const FileDetailsPage = () => {
       const config = {
         headers: { Authorization: `Bearer ${token}` },
       };
-      const response = await axios.get(`http://13.124.48.227/api/v1/files/files/${id}`, config);
+      const response = await axios.get(`http://13.125.141.67/api/v1/files/files/${id}`, config);
   
       // Update the files state with the fetched data
       setFileDetails(response.data);
@@ -74,7 +74,7 @@ const FileDetailsPage = () => {
   const handleDelete = async (file) => {
     try {
       const id = file
-      const url = `http://13.124.48.227/api/v1/files/files/${id}/remove/`;
+      const url = `http://13.125.141.67/api/v1/files/files/${id}/remove/`;
       const token = localStorage.getItem('accessToken');
       const config = {
       headers: {
@@ -95,7 +95,7 @@ const FileDetailsPage = () => {
     // Implement the edit memo functionality
     try {
       const id = file
-      const url = `http://13.124.48.227/api/v1/files/memos/${id}`;
+      const url = `http://13.125.141.67/api/v1/files/memos/${id}`;
       const token = localStorage.getItem('accessToken');
       const config = {
       headers: {

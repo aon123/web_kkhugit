@@ -19,7 +19,7 @@ const Content = () => {
       const config = {
         headers: { Authorization: `Bearer ${token}` },
       };
-      const response = await axios.get('http://13.124.48.227/api/v1/files/trash/', config);
+      const response = await axios.get('http://13.125.141.67/api/v1/files/trash/', config);
   
       // Update the files state with the fetched data
       setFiles(response.data);
@@ -37,7 +37,7 @@ const Content = () => {
   const HandleRecover = async (file) => {
     try {
         const id = file
-        const url = `http://13.124.48.227/api/v1/files/files/${id}/recover/`;
+        const url = `http://13.125.141.67/api/v1/files/files/${id}/recover/`;
         const token = localStorage.getItem('accessToken');
         const config = {
         headers: {
@@ -57,7 +57,7 @@ const Content = () => {
 const HandleDelete = async (file) => {
   try {
       const id = file
-      const url = `http://13.124.48.227/api/v1/files/files/${id}/delete/`;
+      const url = `http://13.125.141.67/api/v1/files/files/${id}/delete/`;
       const token = localStorage.getItem('accessToken');
       const config = {
       headers: {

@@ -20,7 +20,7 @@ const Content = () => {
         const config = {
           headers: { Authorization: `Bearer ${token}` },
         };
-        const response = await axios.get('http://13.124.48.227/api/v1/files/shared/', config);
+        const response = await axios.get('http://13.125.141.67/api/v1/files/shared/', config);
     
         // Update the files state with the fetched data
         setFiles(response.data);

@@ -7,7 +7,7 @@ export const FileSharingSidebar = ({ file, onClose }) => {
 
   const handleShare = () => {
     // Replace with the URL of your API endpoint
-    const apiUrl = 'http://13.124.48.227/api/v1/files/file/share/';
+    const apiUrl = 'http://13.125.141.67/api/v1/files/file/share/';
     const token = localStorage.getItem('accessToken');
           console.log(token)
   

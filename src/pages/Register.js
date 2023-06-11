@@ -21,7 +21,7 @@ export const Register = () => {
     console.log(password)
 
     try {
-      const response = await axios.post('http://13.124.48.227/api/v1/user_app/signup/', {
+      const response = await axios.post('http://13.125.141.67/api/v1/user_app/signup/', {
         full_name,
         email,
         password,

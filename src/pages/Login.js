@@ -15,7 +15,7 @@ export const Login = () => {
     const password = event.target.password.value;
 
     try {
-      const response = await axios.post('http://13.124.48.227/api/v1/user_app/login/', {
+      const response = await axios.post('http://13.125.141.67/api/v1/user_app/login/', {
         email,
         password,
       });
