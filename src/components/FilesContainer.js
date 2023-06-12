@@ -178,7 +178,7 @@ const FileUploadGrid = () => {
             await axios.post('http://13.125.141.67/api/v1/files/upload/', formData, config);
 
             // Fetch the updated list of files after successful upload
-            fetchFiles();
+            fetchFiles(selectedFolder);
         } catch (error) {
             console.error('Upload File Error:', error);
             // Handle any upload file error if needed
