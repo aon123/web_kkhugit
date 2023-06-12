@@ -24,7 +24,7 @@ const FileUploadGrid = () => {
     const [isListVisible, setIsListVisible] = useState(true); // State for toggling visibility
     const [showCreateFolder, setShowCreateFolder] = useState(false);
     const [folderName, setFolderName] = useState('');
-    const [selectedFolder, setSelectedFoler] = useState('')
+    const [selectedFolder, setSelectedFoler] = useState('Home')
 
 
 
@@ -157,6 +157,7 @@ const FileUploadGrid = () => {
 
     const handleFileChange = async (e) => {
         const file = e.target.files[0]; // Get the first file from the selected files
+
 
         try {
             console.log(selectedFolder);
