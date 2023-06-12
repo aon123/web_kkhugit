@@ -1,5 +1,7 @@
 import React from 'react';
 import FileUploadGrid from './FilesContainer';
+import FoldersList from './FolderContainer';
+
 
 const Content = ({ searchTerm }) => {
     return (

@@ -7,7 +7,7 @@ import folder from "../static/folder.png";
 import xls from '../static/exel.png';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import {  useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { data } from 'autoprefixer';
 import { FileSharingSidebar } from './FileSharingSidebar';
 
@@ -20,6 +20,46 @@ const FileUploadGrid = () => {
     const [filteredFiles, setFilteredFiles] = useState([]);
     const [isSharing, setIsSharing] = useState(false);
     const [fileToShare, setFileToShare] = useState(null);
+    const [folders, setFolders] = useState([]);
+    const [isListVisible, setIsListVisible] = useState(true); // State for toggling visibility
+    const [showCreateFolder, setShowCreateFolder] = useState(false);
+    const [folderName, setFolderName] = useState('');
+    const [selectedFolder, setSelectedFoler] = useState('')
+
+
+
+    const handleShowCreateFolder = () => {
+        setShowCreateFolder(true);
+    }
+
+    const handleCreateFolder = async () =>{
+        try {
+            // Make an API request to fetch the files
+            const token = localStorage.getItem('accessToken');
+            console.log(token)
+    
+          // Set the authorization header with the access token
+          const config = {
+            headers: { Authorization: `Bearer ${token}` },
+          };
+            const response = await axios.post('http://13.125.141.67/api/v1/files/create/folder/' , {name: folderName}, config);
+    
+            // Update the files state with the fetched data
+            fetchFolders();
+          } catch (error) {
+            console.error('Fetch Files Error:', error);
+            // Handle any fetch files error if needed
+          }
+        
+        setShowCreateFolder(false);
+    }
+
+
+
+    const toggleListVisibility = () => {
+        setIsListVisible(!isListVisible); // Toggle the visibility
+    };
+
   
     const handleShare = (file) => {
       setFileToShare(file);
@@ -29,7 +69,9 @@ const FileUploadGrid = () => {
     const closeSidebar = () => {
       setIsSharing(false);
     };
-    const fetchFiles = async () => {
+    const fetchFiles = async (selectedFolder) => {
+        const folderName = selectedFolder === "" ? "Home" : selectedFolder;
+
         try {
           // Make an API request to fetch the files
           const token = localStorage.getItem('accessToken');
@@ -42,8 +84,29 @@ const FileUploadGrid = () => {
           const response = await axios.get('http://13.125.141.67/api/v1/files/files/', config);
   
           // Update the files state with the fetched data
-          setFiles(response.data);
+          setFiles(response.data.filter((file) =>  file.folder_id === folderName));
           console.log(files)
+        } catch (error) {
+          console.error('Fetch Files Error:', error);
+          // Handle any fetch files error if needed
+        }
+      };
+
+
+      const fetchFolders = async () => {
+        try {
+          // Make an API request to fetch the files
+          const token = localStorage.getItem('accessToken');
+          console.log(token)
+  
+        // Set the authorization header with the access token
+        const config = {
+          headers: { Authorization: `Bearer ${token}` },
+        };
+          const response = await axios.get('http://13.125.141.67/api/v1/files/folders/', config);
+  
+          // Update the files state with the fetched data
+          setFolders(response.data);
         } catch (error) {
           console.error('Fetch Files Error:', error);
           // Handle any fetch files error if needed
@@ -55,7 +118,17 @@ const FileUploadGrid = () => {
     useEffect(() => {
         
     
-        fetchFiles();
+        fetchFiles(selectedFolder);
+        
+        
+      }, []);
+
+      useEffect(() => {
+        
+    
+        fetchFolders();
+        
+        
       }, []);
 
       useEffect(() => {
@@ -86,11 +159,13 @@ const FileUploadGrid = () => {
         const file = e.target.files[0]; // Get the first file from the selected files
 
         try {
+            console.log(selectedFolder);
             // Create a new FormData object
             const formData = new FormData();
 
             // Append the file to the FormData object
             formData.append('file', file);
+            formData.append('folder_id', selectedFolder )
 
             // Make an API request to upload the file
             const token = localStorage.getItem('accessToken');
@@ -131,6 +206,8 @@ const FileUploadGrid = () => {
             console.error('Favorite')
         }
     };
+
+    
 
     const handleFileOpen = async (file) => {
        
@@ -207,8 +284,52 @@ const FileUploadGrid = () => {
         return (bytes / 1024).toFixed(2) + ' KB';
     };
 
+
+    const handleSelecedFolder = (name)=>{
+        setSelectedFoler(name);
+        fetchFiles(name)
+        console.log(selectedFolder)
+    }
+
     return (
+        <div>
+            <div className="w-full bg-slate-50 shadow-md rounded-xl mt-8">
+            <div className="flex justify-between items-center p-4">
+                <div className='flex items-center'>
+                <i className="fas fa-folder text-yellow-400"></i>
+                <h1 className='font-bold text-lg ml-2'>Folders</h1>
+                <button className='ml-4 p-2 bg-blue-500 rounded-lg text-white hover:bg-blue-700' onClick={handleShowCreateFolder}> <i className='fas fa-add'></i> Create folder</button>
+                { showCreateFolder && <div className='flex ml-4'><input name="folder_name" className="w-full px-4 py-2 pl-4 pr-8 rounded-md border" onChange={(e)=> setFolderName(e.target.value)} type="text" /> <button className='bg-blue-500 p-2 rounded-md text-white ml-1' onClick={()=> handleCreateFolder(folderName)}>Save</button> <button className='bg-red-500 p-2 rounded-md text-white ml-1' onClick={()=> setShowCreateFolder(false)}>Cancel</button> </div> }
+                </div>
+            
+                <button onClick={toggleListVisibility} className="text-sm font-semibold text-gray-600 hover:text-purple-800">
+                    {isListVisible ? 'Hide' : 'Show'}
+                </button>
+            </div>
+
+            {isListVisible && (
+                <ul className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-0 p-2">
+                    {folders.map((folder) => (
+                        <li key={folder.id} className="p-2">
+                            {folder.name === selectedFolder ? (
+                    <div className="bg-blue-500 py-2 px-4 flex rounded-md text-white items-center space-x-2 hover:bg-blue-600" onClick={() => handleSelecedFolder(folder.name)}>
+                        <i className="fas fa-folder text-yellow-400"></i>
+                        <span className='font-medium'>{folder.name}</span>
+                    </div>
+                ) : (
+                    <div className="bg-gray-100 py-2 px-4 flex rounded-md items-center space-x-2 hover:bg-gray-300" onClick={() => handleSelecedFolder(folder.name)}>
+                        <i className="fas fa-folder text-yellow-400"></i>
+                        <span className='font-medium' >{folder.name}</span>
+                    </div>
+                )}
+                            
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </div>
          <div className=' bg-slate-50 mt-10 rounded-xl shadow-md'>
+            
             <div className='flex items-center justify-between ml-4 mt-4 mb-2 pt-2'>
                 <div className='flex items-center'>
                     <i className="fas fa-file text-blue-500"></i>
@@ -281,6 +402,7 @@ const FileUploadGrid = () => {
             ))}
         </div>
         {isSharing && <FileSharingSidebar file={fileToShare} onClose={closeSidebar} />}
+        </div>
         </div>
     );
 };
