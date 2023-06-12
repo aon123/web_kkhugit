@@ -201,7 +201,7 @@ const FileUploadGrid = () => {
             await axios.put(url, {'id': id} ,config);
 
             // Fetch the updated list of files after successful upload
-            fetchFiles();
+            fetchFiles(selectedFolder);
         } catch (error) {
             console.error('Favorite')
         }
