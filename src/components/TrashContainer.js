@@ -135,7 +135,7 @@ const HandleDelete = async (file) => {
                 <img src={getFileIcon(file.file_name)} className="h-20 w-20" alt="" />
                 <div className="pt-2">
                   <button type="button" className="text-sm font-medium text-gray-600">
-                    {file.name}
+                    {file.file_name}
                   </button>
                   <div className="text-xs text-gray-500 text-center">{formatBytes(file.size)}</div>
                 </div>
